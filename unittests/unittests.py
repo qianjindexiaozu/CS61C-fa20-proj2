@@ -86,16 +86,24 @@ class TestDot(TestCase):
     def test_simple(self):
         t = AssemblyTest(self, "dot.s")
         # create arrays in the data section
-        raise NotImplementedError("TODO")
+        array0 = t.array([1, -2, 3, 11])
+        array1 = t.array([2, 1, -1, 1])
+        # raise NotImplementedError("TODO")
         # TODO
         # load array addresses into argument registers
+        t.input_array("a0", array0)
+        t.input_array("a1", array1)
         # TODO
         # load array attributes into argument registers
+        t.input_scalar("a2", len(array0))
+        t.input_scalar("a3", 1)
+        t.input_scalar("a4", 1)
         # TODO
         # call the `dot` function
         t.call("dot")
         # check the return value
         # TODO
+        t.check_scalar("a0", 8)
         t.execute()
 
     @classmethod

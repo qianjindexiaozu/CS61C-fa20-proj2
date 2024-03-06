@@ -95,15 +95,15 @@ class TestDot(TestCase):
         t.input_array("a1", array1)
         # TODO
         # load array attributes into argument registers
-        t.input_scalar("a2", len(array0))
-        t.input_scalar("a3", 1)
-        t.input_scalar("a4", 1)
+        t.input_scalar("a2", 2)
+        t.input_scalar("a3", 2)
+        t.input_scalar("a4", 2)
         # TODO
         # call the `dot` function
         t.call("dot")
         # check the return value
         # TODO
-        t.check_scalar("a0", 8)
+        t.check_scalar("a0", -1)
         t.execute()
 
     @classmethod
@@ -124,15 +124,23 @@ class TestMatmul(TestCase):
         array_out = t.array([0] * len(result))
 
         # load address of input matrices and set their dimensions
-        raise NotImplementedError("TODO")
+        t.input_array("a0", array0)
+        t.input_scalar("a1", m0_rows)
+        t.input_scalar("a2", m0_cols)
+        t.input_array("a3", array1)
+        t.input_scalar("a4", m1_rows)
+        t.input_scalar("a5", m1_cols)
+        # raise NotImplementedError("TODO")
         # TODO
         # load address of output array
+        t.input_array("a6", array_out)
         # TODO
 
         # call the matmul function
         t.call("matmul")
 
         # check the content of the output array
+        t.check_array(array_out, result)
         # TODO
 
         # generate the assembly file and run it through venus, we expect the simulation to exit with code `code`

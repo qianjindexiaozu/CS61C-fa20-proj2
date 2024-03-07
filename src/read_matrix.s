@@ -125,6 +125,3 @@ exit_91:
 exit_92:
     li a1, 92
     call exit2
-exit_93:
-    li a1, 93
-    call exit2

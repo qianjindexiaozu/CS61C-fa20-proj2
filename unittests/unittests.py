@@ -60,20 +60,19 @@ class TestArgmax(TestCase):
         t = AssemblyTest(self, "argmax.s")
         # create an array in the data section
         array0 = t.array([1, -2, 3, 11, 5, -6, 11, -8, 9])
-        # raise NotImplementedError("TODO")
-        # TODO
+        
         # load address of the array into register a0
         t.input_array("a0", array0)
-        # TODO
+        
         # set a1 to the length of the array
         t.input_scalar("a1", len(array0))
-        # TODO
+        
         # call the `argmax` function
         t.call("argmax")
-        # TODO
+        
         # check that the register a0 contains the correct output
         t.check_scalar("a0", 3)
-        # TODO
+        
         # generate the `assembly/TestArgmax_test_simple.s` file and run it through venus
         t.execute()
 
@@ -88,21 +87,20 @@ class TestDot(TestCase):
         # create arrays in the data section
         array0 = t.array([1, -2, 3, 11])
         array1 = t.array([2, 1, -1, 1])
-        # raise NotImplementedError("TODO")
-        # TODO
+        
         # load array addresses into argument registers
         t.input_array("a0", array0)
         t.input_array("a1", array1)
-        # TODO
+        
         # load array attributes into argument registers
         t.input_scalar("a2", 2)
         t.input_scalar("a3", 2)
         t.input_scalar("a4", 2)
-        # TODO
+        
         # call the `dot` function
         t.call("dot")
+
         # check the return value
-        # TODO
         t.check_scalar("a0", -1)
         t.execute()
 
@@ -130,18 +128,15 @@ class TestMatmul(TestCase):
         t.input_array("a3", array1)
         t.input_scalar("a4", m1_rows)
         t.input_scalar("a5", m1_cols)
-        # raise NotImplementedError("TODO")
-        # TODO
+
         # load address of output array
         t.input_array("a6", array_out)
-        # TODO
 
         # call the matmul function
         t.call("matmul")
 
         # check the content of the output array
         t.check_array(array_out, result)
-        # TODO
 
         # generate the assembly file and run it through venus, we expect the simulation to exit with code `code`
         t.execute(code=code)
@@ -170,20 +165,34 @@ class TestReadMatrix(TestCase):
         cols = t.array([-1])
 
         # load the addresses to the output parameters into the argument registers
-        raise NotImplementedError("TODO")
-        # TODO
+        t.input_array("a1", rows)
+        t.input_array("a2", cols)
 
         # call the read_matrix function
         t.call("read_matrix")
 
         # check the output from the function
-        # TODO
+        t.check_array_pointer("a0", [1, 2, 3, 4, 5, 6, 7, 8, 9])
+        t.check_array(rows, [3])
+        t.check_array(cols, [3])
 
         # generate assembly and run it through venus
         t.execute(fail=fail, code=code)
 
     def test_simple(self):
         self.do_read_matrix()
+    
+    def test_malloc_exception(self):
+        self.do_read_matrix(fail='malloc', code=88)
+
+    def test_fopen_exception(self):
+        self.do_read_matrix(fail='fopen', code=90)
+
+    def test_fread_exception(self):
+        self.do_read_matrix(fail='fread', code=91)
+
+    def test_fclose_exception(self):
+        self.do_read_matrix(fail='fclose', code=92)
 
     @classmethod
     def tearDownClass(cls):
